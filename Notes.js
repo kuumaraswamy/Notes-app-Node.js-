@@ -4,9 +4,9 @@ const fs = require('fs')
 const addNote = (title,body) => {
     const notes = loadNotes()
 
-    const duplicatesNotes = notes.filter((note) =>  note.title === title )
+    const duplicateNotes = notes.find((note) =>  note.title === title )
     
-    if(duplicatesNotes.length === 0){
+    if(duplicateNotes){
         notes.push({
             title:title,
             body:body
@@ -44,6 +44,20 @@ const listNote = (title)=>{
   });
 }
 
+//Read Notes
+
+const readNote = (title) =>{
+    const notes = loadNotes()
+    const note = notes.find((note) => note.title === title)
+
+    if(note){
+        console.log(note.title)
+        console.log(note.body)
+    }else{
+        console.log("Note not found !")
+    }
+}
+
 const saveNotes = function(notes){
     const dataJSON = JSON.stringify(notes)
     fs.writeFileSync('notes.json', dataJSON)
@@ -64,5 +78,6 @@ const loadNotes = function(){
 module.exports = {
     addNote: addNote,
     removeNote: removeNote,
-    listNotes:listNote
+    listNotes:listNote,
+    readNotes:readNote,
 }
